@@ -11,6 +11,8 @@
 
 package org.usfirst.frc2876.PowerUp2018;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import org.usfirst.frc2876.PowerUp2018.commands.ArmDown;
 import org.usfirst.frc2876.PowerUp2018.commands.ArmStop;
 import org.usfirst.frc2876.PowerUp2018.commands.ArmUp;
@@ -19,15 +21,11 @@ import org.usfirst.frc2876.PowerUp2018.commands.IntakeBackward;
 import org.usfirst.frc2876.PowerUp2018.commands.IntakeForward;
 import org.usfirst.frc2876.PowerUp2018.commands.ToggleSensitiveDrive;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
 
 /**
  * This class is the glue that binds the controls on the physical operator

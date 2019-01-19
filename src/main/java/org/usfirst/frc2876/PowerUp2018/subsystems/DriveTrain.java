@@ -39,6 +39,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
+
+
 /**
  *
  */
@@ -198,6 +200,7 @@ public class DriveTrain extends Subsystem {
 		turnController.setAbsoluteTolerance(kTurnToleranceDegrees);
 		turnController.setContinuous(true);
 
+		this.initializeCamera();
 	}
 
 	public void setBrakeMode(boolean brake) {

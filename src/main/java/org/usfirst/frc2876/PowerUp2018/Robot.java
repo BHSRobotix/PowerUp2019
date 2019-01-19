@@ -15,6 +15,7 @@ import org.usfirst.frc2876.PowerUp2018.commands.AutoCGLine;
 import org.usfirst.frc2876.PowerUp2018.commands.AutoCGSwitchScale;
 import org.usfirst.frc2876.PowerUp2018.subsystems.DriveTrain;
 import org.usfirst.frc2876.PowerUp2018.subsystems.Intake;
+import org.usfirst.frc2876.PowerUp2018.utilities.Pixy2I2C;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -156,7 +157,9 @@ public class Robot extends TimedRobot {
     	//Robot.driveTrain.resetEncoders();
     	//Robot.elevator.resetPositionValue();
         //driveTrain.navx.reset();
-        //driveTrain.initializeCamera();
+       
+        Pixy2I2C pixy = new Pixy2I2C("test", 0x54);
+        pixy.version();
     }
 
     /**
