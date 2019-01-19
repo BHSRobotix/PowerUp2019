@@ -94,7 +94,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
-
+        Pixy2I2C pixy = new Pixy2I2C("test", 0x54);
+        pixy.ledOff();
     }
 
     @Override
@@ -160,6 +161,7 @@ public class Robot extends TimedRobot {
        
         Pixy2I2C pixy = new Pixy2I2C("test", 0x54);
         pixy.version();
+        pixy.ledOn();
     }
 
     /**

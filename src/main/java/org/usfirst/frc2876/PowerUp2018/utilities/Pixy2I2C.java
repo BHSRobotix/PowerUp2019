@@ -23,6 +23,21 @@ public class Pixy2I2C {
         0
     };
 
+    private static final byte[] LED_ON = new byte[] {
+        (byte)0xAE, (byte)0xc1,
+        0x16,
+        0x02,
+        0x01,
+        0x01
+    };
+    private static final byte[] LED_OFF = new byte[] {
+        (byte)0xAE, (byte)0xc1,
+        0x16,
+        0x02,
+        0,
+        0
+    };
+
     public Pixy2I2C(String id, int address) {
         i2c = new I2C(port, address);
         //pExc = argPixyException;
@@ -64,10 +79,11 @@ public class Pixy2I2C {
     }
 
     public static void printBytes(byte[] b) {
+        System.out.println("start bytes");
         for (int i=0; i<b.length; i++) {
             System.out.format("%02X ", b[i]);
         }
-        System.out.println();
+        System.out.println("end bytes");
     }
 
     public void version( ){
@@ -91,11 +107,38 @@ public class Pixy2I2C {
         printBytes(GET_VERSION);
         boolean t = send(GET_VERSION);
         System.out.println("send returned: " + t);
-        try{
-            Thread.sleep(1000);
-        }catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
+
+        byte[] resp = new byte[6+16];
+        boolean b = recv(resp);
+        System.out.println("recv returned: " + b);
+        printBytes(resp);
+    }
+
+
+    public void ledOn( ){
+        System.out.println("ledOn Started");
+        //byte[] testResp = new byte[1];
+        //while(recv(testResp));
+
+        printBytes(LED_ON);
+        boolean t = send(LED_ON);
+        System.out.println("send returned: " + t);
+        
+        byte[] resp = new byte[6+16];
+        boolean b = recv(resp);
+        System.out.println("recv returned: " + b);
+        printBytes(resp);
+    }
+
+    public void ledOff( ){
+        System.out.println("ledOff Started");
+        //byte[] testResp = new byte[1];
+        //while(recv(testResp));
+
+        printBytes(LED_OFF);
+        boolean t = send(LED_OFF);
+        System.out.println("send returned: " + t);
+        
         byte[] resp = new byte[6+16];
         boolean b = recv(resp);
         System.out.println("recv returned: " + b);
