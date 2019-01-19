@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-// Rick testing git
 public class Pixy2I2C {
     String name;
     I2C i2c;
