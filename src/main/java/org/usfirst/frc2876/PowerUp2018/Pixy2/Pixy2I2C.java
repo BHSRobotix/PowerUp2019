@@ -1,4 +1,4 @@
-package org.usfirst.frc2876.PowerUp2018.utilities;
+package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -78,12 +78,11 @@ public class Pixy2I2C {
         return !i2c.writeBulk(buf);
     }
 
-    public static void printBytes(byte[] b) {
-        System.out.println("start bytes");
+    public static void printBytes(String msg, byte[] b) {
+        System.out.print(msg + ": ");
         for (int i=0; i<b.length; i++) {
             System.out.format("%02X ", b[i]);
         }
-        System.out.println("end bytes");
     }
 
     public void version( ){
@@ -104,14 +103,14 @@ public class Pixy2I2C {
         //byte[] testResp = new byte[1];
         //while(recv(testResp));
 
-        printBytes(GET_VERSION);
+        printBytes("GET_VERSION", GET_VERSION);
         boolean t = send(GET_VERSION);
         System.out.println("send returned: " + t);
 
         byte[] resp = new byte[6+16];
         boolean b = recv(resp);
         System.out.println("recv returned: " + b);
-        printBytes(resp);
+        printBytes("GET_VERSION resp",resp);
     }
 
 
@@ -120,14 +119,14 @@ public class Pixy2I2C {
         //byte[] testResp = new byte[1];
         //while(recv(testResp));
 
-        printBytes(LED_ON);
+        printBytes("LED_ON", LED_ON);
         boolean t = send(LED_ON);
         System.out.println("send returned: " + t);
         
         byte[] resp = new byte[6+16];
         boolean b = recv(resp);
         System.out.println("recv returned: " + b);
-        printBytes(resp);
+        printBytes("LED_ON resp", resp);
     }
 
     public void ledOff( ){
@@ -135,14 +134,14 @@ public class Pixy2I2C {
         //byte[] testResp = new byte[1];
         //while(recv(testResp));
 
-        printBytes(LED_OFF);
+        printBytes("LED_OFF", LED_OFF);
         boolean t = send(LED_OFF);
         System.out.println("send returned: " + t);
         
         byte[] resp = new byte[6+16];
         boolean b = recv(resp);
         System.out.println("recv returned: " + b);
-        printBytes(resp);
+        printBytes("LED_OFF resp", resp);
     }
 
 }

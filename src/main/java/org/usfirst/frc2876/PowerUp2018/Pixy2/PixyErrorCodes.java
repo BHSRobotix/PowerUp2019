@@ -1,4 +1,4 @@
-package org.usfirst.frc2876.PowerUp2018.utilities;
+package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
 public enum PixyErrorCodes {
     INTERNAL_ERROR {

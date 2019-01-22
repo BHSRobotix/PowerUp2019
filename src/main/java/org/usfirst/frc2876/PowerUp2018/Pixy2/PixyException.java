@@ -1,4 +1,4 @@
-package org.usfirst.frc2876.PowerUp2018.utilities;
+package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
 public class PixyException extends RuntimeException  {
     private static final long serialVersionUID = -5310572247323732287L;
