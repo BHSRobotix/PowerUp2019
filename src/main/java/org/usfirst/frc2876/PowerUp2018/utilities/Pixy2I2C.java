@@ -27,8 +27,16 @@ public class Pixy2I2C {
         (byte)0xAE, (byte)0xc1,
         0x16,
         0x02,
-        0x01,
+        0,
         0x01
+    };
+    private static final byte[] LED_GREEN = new byte[] {
+        (byte)0xAE, (byte)0xc1,
+        0x14,
+        0x03,
+        (byte)0xff,
+        (byte)0xff,  //green doesnt work for some reason
+        (byte)0xff
     };
     private static final byte[] LED_OFF = new byte[] {
         (byte)0xAE, (byte)0xc1,
@@ -130,6 +138,20 @@ public class Pixy2I2C {
         printBytes(resp);
     }
 
+    public void ledGreen( ){
+        System.out.println("ledOn Started");
+        //byte[] testResp = new byte[1];
+        //while(recv(testResp));
+
+        printBytes(LED_GREEN);
+        boolean t = send(LED_GREEN);
+        System.out.println("send returned: " + t);
+        
+        byte[] resp = new byte[6+16];
+        boolean b = recv(resp);
+        System.out.println("recv returned: " + b);
+        printBytes(resp);
+    }    
     public void ledOff( ){
         System.out.println("ledOff Started");
         //byte[] testResp = new byte[1];
