@@ -11,7 +11,6 @@ public class Pixy2I2C {
     String name;
     I2C i2c;
     Port port = Port.kOnboard;
-    PixyException pExc;
     String print;
 
     // Max bytes to send across wire for each write
@@ -49,6 +48,7 @@ public class Pixy2I2C {
         return (((int) upper & 0xff) << 8) | ((int) lower & 0xff);
     }
 
+
     public boolean recv(byte[] buf) {
         try {
             return !i2c.readOnly(buf, buf.length);
@@ -83,6 +83,7 @@ public class Pixy2I2C {
         for (int i=0; i<b.length; i++) {
             System.out.format("%02X ", b[i]);
         }
+        System.out.println();
     }
 
     public void version( ){
