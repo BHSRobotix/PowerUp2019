@@ -8,6 +8,14 @@ public class Pixy2Vector {
     // - use String.format to replace sprintf
     // - Make everything public, don't make get/set methods.
     // - use int instead of uint8_t type
+    public Pixy2Vector(byte[] vector) {
+        m_x0 = vector[0];
+        m_y0 = vector[1];
+        m_x1 = vector[2];
+        m_y1 = vector[3];
+        m_index = vector[4];
+        m_flags = vector[5];
+    }
     void print() {
         System.out.printf("vector: (%d %d) (%d %d) index: %d flags %d", m_x0, m_y0, m_x1, m_y1, m_index, m_flags);
         System.out.println();

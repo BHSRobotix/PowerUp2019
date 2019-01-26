@@ -170,4 +170,9 @@ public class Pixy2 {
         
         Pixy2SetLED sl = new Pixy2SetLED(i2c, r, g, b);
     }
+
+    public void getVectors() {
+        Pixy2GetMainFeatures mf = new Pixy2GetMainFeatures(i2c);
+        
+    }
 }

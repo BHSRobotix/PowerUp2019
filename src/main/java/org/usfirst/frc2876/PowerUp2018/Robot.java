@@ -166,6 +166,7 @@ public class Robot extends TimedRobot {
         pixy.version();
         pixy.version2();
         pixy.setLed();
+        pixy.getVectors();
     }
 
     /**
@@ -179,6 +180,9 @@ public class Robot extends TimedRobot {
         intake.updateSmartDashboard();
         elevator.updateSmartDashboard();
         //roborioDIO.updateSmartDashboard();
+
+        //pixy.getVectors();
+
     }
     
     
