@@ -12,8 +12,6 @@ public class Pixy2Request {
         this.payload = payload;
         this.request = build();
     }
-    public Pixy2Request() {
-    }
 
     public boolean send(Pixy2I2C i2c) {
         return i2c.send(request);

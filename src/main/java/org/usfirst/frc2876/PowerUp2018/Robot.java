@@ -159,12 +159,8 @@ public class Robot extends TimedRobot {
     	//Robot.elevator.resetPositionValue();
         //driveTrain.navx.reset();
        
-        // Pixy2I2C pixy = new Pixy2I2C("test", 0x54);
-        // pixy.version();
-        // pixy.ledOn();
-        Pixy2 pixy = new Pixy2();
+        Pixy2 pixy = new Pixy2("line", 0x54);
         pixy.version();
-        pixy.version2();
         pixy.setLed();
         pixy.getVectors();
     }

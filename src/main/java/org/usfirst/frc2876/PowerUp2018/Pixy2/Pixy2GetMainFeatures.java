@@ -51,8 +51,4 @@ public class Pixy2GetMainFeatures {
         
     }
 
-    void print() {
-        
-    }
-
 }
