@@ -2,7 +2,7 @@ package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
 import java.util.Arrays;
 
-public class Pixy2Version extends Pixy2Packet {
+public class Pixy2Version {
 
     short hardware;
     byte firmwareMajor;
@@ -11,14 +11,30 @@ public class Pixy2Version extends Pixy2Packet {
     String firmwareType;
     byte[] rawBytes;
 
+    Pixy2Request request;
+    Pixy2Response response;
+
+    byte requestType = 14;
+    byte responseType = 15;
+
     public Pixy2Version(byte[] rawBytes) {
         this.rawBytes = rawBytes;
-        parseBytes();
+        parseResponse();
+    }
+    public Pixy2Version(Pixy2I2C i2c) {
+        request = new Pixy2Request(requestType, null);
+        if (i2c.send(request.buf())) {
+            response = new Pixy2Response(i2c);
+            rawBytes = response.recv();
+            parseResponse();
+        }
     }
 
-    byte type = 0x0E;
-
-    private void parseBytes() {
+    private void parseResponse() {
+        // See https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:protocol_reference#getversion
+        // or/and
+        // https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:porting_guide#the-serial-protocol
+        //
         // 0x00 // first byte of hardware version (little endian -> least-significant
         // byte first)
         // 0x22 // second byte of hardware version
@@ -38,10 +54,10 @@ public class Pixy2Version extends Pixy2Packet {
         // 0x00 // byte 8 of firmware type ASCII string
         // 0x00 // byte 9 of firmware type ASCII string
 
-        hardware = cvt(rawBytes[1], rawBytes[0]);
+        hardware = Pixy2.bytesToShort(rawBytes[1], rawBytes[0]);
         firmwareMajor = rawBytes[2];
         firmwareMinor = rawBytes[3];
-        firmwareBuild = cvt(rawBytes[5], rawBytes[4]);
+        firmwareBuild = Pixy2.bytesToShort(rawBytes[5], rawBytes[4]);
         firmwareType = new String(Arrays.copyOfRange(rawBytes, 6, rawBytes.length));
     }
 

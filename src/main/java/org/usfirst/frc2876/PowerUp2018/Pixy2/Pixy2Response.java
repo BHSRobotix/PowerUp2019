@@ -1,29 +1,27 @@
 package org.usfirst.frc2876.PowerUp2018.Pixy2;
-import java.util.Arrays;
 
-public class Pixy2 {
-    Pixy2I2C i2c;
+public class Pixy2Response {
+
     public static final boolean PIXY_RESULT_OK = true;
     public static final boolean PIXY_RESULT_ERROR = false;
     public static final short PIXY_CHECKSUM_SYNC = (short)0xc1af;
     public static final short PIXY_NO_CHECKSUM_SYNC = (short)0xc1ae;
 
-    private boolean m_cs;
+    Pixy2I2C i2c;
+    boolean m_cs = false;
+    public byte m_type;
+    byte m_length;
+    public byte[] payload;
 
-    private Pixy2Request request;
-    private Pixy2Response response;
-
-    public Pixy2() {
-        i2c = new Pixy2I2C("test", 0x54);
+    public Pixy2Response(Pixy2I2C i2c) {
+        this.i2c = i2c;
     }
 
-    // https://stackoverflow.com/questions/736815/2-bytes-to-short-java
-    public static short bytesToShort(byte upper, byte lower) {
-        // return (((int) upper & 0xff) << 8) | ((int) lower & 0xff);
-        return (short)(((upper & 0xFF) << 8) | (lower & 0xFF));
+    public Pixy2Response() {
+        this.i2c = null;
     }
 
-    public boolean getSync() {
+    private boolean getSync() {
         // implement this here
         // https://github.com/charmedlabs/pixy2/blob/master/src/host/arduino/libraries/Pixy2/TPixy2.h#L169
 
@@ -36,7 +34,7 @@ public class Pixy2 {
         byte bytePrev = 0;
         // parse bytes until we find sync
         for (i = j = 0; true; i++) {
-            //System.out.format("sync: %02X %02X\n", bytePrev, byteCur);
+            // System.out.format("sync: %02X %02X\n", bytePrev, byteCur);
             res = i2c.recv(buf);
             if (res == PIXY_RESULT_OK) {
                 byteCur = buf[0];
@@ -44,21 +42,22 @@ public class Pixy2 {
                 // start = cprev;
                 // current byte is most significant byte
                 // start |= c << 8;
-                start = bytesToShort(byteCur, bytePrev);
+                start = Pixy2.bytesToShort(byteCur, bytePrev);
 
-                //System.out.format("sync: %02X %02X\n", bytePrev, byteCur);
-                System.out.format("sync: %02X %02X start: %02X %02X %02X\n", bytePrev, byteCur, start, PIXY_CHECKSUM_SYNC, PIXY_NO_CHECKSUM_SYNC);
-                System.out.println("start " + (short)start + " == " + PIXY_CHECKSUM_SYNC);
-                
+                // System.out.format("sync: %02X %02X\n", bytePrev, byteCur);
+                System.out.format("sync: %02X %02X start: %02X %02X %02X\n", bytePrev, byteCur, start,
+                        PIXY_CHECKSUM_SYNC, PIXY_NO_CHECKSUM_SYNC);
+                System.out.println("start " + (short) start + " == " + PIXY_CHECKSUM_SYNC);
+
                 bytePrev = byteCur;
                 // cprev = c;
                 if (start == PIXY_CHECKSUM_SYNC) {
                     m_cs = true;
-                    return PIXY_RESULT_OK;
+                    return true;
                 }
                 if (start == PIXY_NO_CHECKSUM_SYNC) {
                     m_cs = false;
-                    return PIXY_RESULT_OK;
+                    return false;
                 }
             }
             // If we've read some bytes and no sync, then wait and try again.
@@ -79,7 +78,7 @@ public class Pixy2 {
 
     public byte[] recv() {
         // https://github.com/charmedlabs/pixy2/blob/master/src/host/arduino/libraries/Pixy2/TPixy2.h#L217
-        //int csCalc, csSerial;
+        // int csCalc, csSerial;
         boolean res;
 
         res = getSync();
@@ -87,9 +86,7 @@ public class Pixy2 {
             System.out.println("recv failed to get sync");
             return null;
         }
-        byte m_type;
-        byte m_length;
-        byte[] payload;
+       
         if (m_cs) {
             byte[] buf = new byte[4];
             res = i2c.recv(buf);
@@ -128,46 +125,5 @@ public class Pixy2 {
             }
         }
         return payload;
-    }
-
-    public boolean send(byte type, byte[] payload) {
-        // https://github.com/charmedlabs/pixy2/blob/master/src/host/arduino/libraries/Pixy2/TPixy2.h#L266
-        int len = 0;
-        if (payload != null) {
-            len = payload.length;
-        }
-        byte[] header = { (byte) 0xAE, (byte) 0xC1, type, (byte)len };
-        
-        // https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#copyOf-byte:A-int-
-        byte[] buf = Arrays.copyOf(header, header.length + len);
-        if (payload != null) {
-           // https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#arraycopy-java.lang.Object-int-java.lang.Object-int-int-
-            System.arraycopy(payload, 0, buf, header.length, len);
-        }
-        Pixy2I2C.printBytes("Send:", buf);
-        return i2c.send(buf);
-    }
-
-    public void version() {
-        byte[] payload = null;
-        if (send((byte)0x0E, payload)) {
-            byte[] response = recv();
-            Pixy2I2C.printBytes("version rawbytes", response);
-            Pixy2Version v = new Pixy2Version(response);
-            System.out.println("Version:");
-            v.print();
-        }
-    }
-
-    public void version2() {
-        Pixy2Version v = new Pixy2Version(i2c);
-        v.print();
-    }
-    public void setLed() {
-        byte r=1;
-        byte g=1;
-        byte b=1;
-        
-        Pixy2SetLED sl = new Pixy2SetLED(i2c, r, g, b);
     }
 }

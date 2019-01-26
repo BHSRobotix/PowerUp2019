@@ -164,7 +164,8 @@ public class Robot extends TimedRobot {
         // pixy.ledOn();
         Pixy2 pixy = new Pixy2();
         pixy.version();
-
+        pixy.version2();
+        pixy.setLed();
     }
 
     /**
