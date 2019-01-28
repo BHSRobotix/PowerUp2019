@@ -21,17 +21,24 @@ public class Pixy2Version {
         this.rawBytes = rawBytes;
         parseResponse();
     }
+
     public Pixy2Version(Pixy2I2C i2c) {
         request = new Pixy2Request(requestType, null);
         if (i2c.send(request.buf())) {
             response = new Pixy2Response(i2c);
-            rawBytes = response.recv();
+            try {
+                rawBytes = response.recv();
+            } catch (Pixy2Exception ex) {
+                System.out.println(ex);
+                return;
+            }
             parseResponse();
         }
     }
 
     private void parseResponse() {
-        // See https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:protocol_reference#getversion
+        // See
+        // https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:protocol_reference#getversion
         // or/and
         // https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:porting_guide#the-serial-protocol
         //
