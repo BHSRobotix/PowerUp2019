@@ -18,7 +18,13 @@ public class Pixy2SetLED {
         request = new Pixy2Request(requestType, payload);
         if (i2c.send(request.buf())) {
             response = new Pixy2Response(i2c);
-            rawBytes = response.recv();
+            try {
+                rawBytes = response.recv();
+            } catch (Pixy2Exception ex) {
+                System.out.println(ex);
+                ex.printStackTrace();
+                return;
+            }
             if (response.m_type != responseType) {
                 // TODO throw pixy exception
             }

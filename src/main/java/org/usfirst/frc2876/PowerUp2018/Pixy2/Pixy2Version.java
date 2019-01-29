@@ -30,6 +30,7 @@ public class Pixy2Version {
                 rawBytes = response.recv();
             } catch (Pixy2Exception ex) {
                 System.out.println(ex);
+                ex.printStackTrace();
                 return;
             }
             parseResponse();
@@ -60,6 +61,10 @@ public class Pixy2Version {
         // 0x00 // byte 7 of firmware type ASCII string
         // 0x00 // byte 8 of firmware type ASCII string
         // 0x00 // byte 9 of firmware type ASCII string
+        
+        if(rawBytes.length != 7){
+            return;
+        }
 
         hardware = Pixy2.bytesToShort(rawBytes[1], rawBytes[0]);
         firmwareMajor = rawBytes[2];

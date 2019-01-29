@@ -102,7 +102,9 @@ public class Pixy2Response {
             }
             m_type = buf[0];
             byte length = buf[1];
-
+            if(length == 0){
+                return new byte[0];
+            }
             payload = new byte[length];
             res = i2c.recv(payload);
             if (res != PIXY_RESULT_OK) {
@@ -113,8 +115,12 @@ public class Pixy2Response {
             short csCalc = calcChecksum();
             short csSerial = Pixy2.bytesToShort(buf[3], buf[2]);
             if (csSerial != csCalc) {
-                throw new Pixy2Exception(String.format("Checksums did not match: calc=%d resp=%d(%02X %02X)",
-                        csCalc, csSerial, buf[2], buf[3]));
+                //throw new Pixy2Exception(String.format("Checksums did not match: calc=%d resp=%d(%02X %02X)",
+                        //csCalc, csSerial, buf[2], buf[3]));
+                System.out.println(String.format("Checksums did not match: calc=%d resp=%d(%02X %02X)",
+                csCalc, csSerial, buf[2], buf[3]));
+
+                
             }
         } else {
             byte[] buf = new byte[2];
