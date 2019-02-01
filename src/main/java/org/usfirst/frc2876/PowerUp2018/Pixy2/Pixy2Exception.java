@@ -1,6 +1,8 @@
 package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
-
+// These two links heled figure out how to define this class
+// https://docs.oracle.com/javase/tutorial/essential/exceptions/chained.html
+// https://stackoverflow.com/questions/3776327/how-to-define-custom-exception-class-in-java-the-easiest-way
 public class Pixy2Exception extends Exception {
     public Pixy2Exception() {
 

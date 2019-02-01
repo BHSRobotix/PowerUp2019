@@ -1,8 +1,6 @@
 
 package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
-import java.util.Arrays;
-
 public class Pixy2SetLED {
 
     byte[] rawBytes;

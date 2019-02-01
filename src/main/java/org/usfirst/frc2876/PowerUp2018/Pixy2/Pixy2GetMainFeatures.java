@@ -1,13 +1,12 @@
 
 package org.usfirst.frc2876.PowerUp2018.Pixy2;
 
-import java.util.Arrays;
-
 public class Pixy2GetMainFeatures {
 
     byte[] rawBytes;
     Pixy2Request request;
     Pixy2Response response;
+    Pixy2Vector[] vectors;
 
     public static final byte LINE_VECTOR = 1;
     public static final byte VECTOR_LENGTH = 6;
@@ -50,11 +49,13 @@ public class Pixy2GetMainFeatures {
         if(rawBytes[0] == LINE_VECTOR){
             //https://github.com/charmedlabs/pixy2/blob/master/src/host/arduino/libraries/Pixy2/Pixy2Line.h#L180
             int numVectors = rawBytes[1]/VECTOR_LENGTH;
+            vectors = new Pixy2Vector[numVectors];
             for(int i = 0; i < numVectors; i++){
                 byte[] buf = new byte[VECTOR_LENGTH];
                 int offset = (VECTOR_LENGTH * i) + 2;
                 System.arraycopy(rawBytes, offset, buf, 0, VECTOR_LENGTH);
                 Pixy2Vector v = new Pixy2Vector(buf);
+                vectors[i] = v;
                 v.print();
             }
         }
