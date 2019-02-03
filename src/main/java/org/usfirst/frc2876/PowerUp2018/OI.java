@@ -13,7 +13,7 @@ package org.usfirst.frc2876.PowerUp2018;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-import org.usfirst.frc2876.PowerUp2018.commands.ArmDown;
+import org.usfirst.frc2876.PowerUp2018.commands.TestPixy;
 import org.usfirst.frc2876.PowerUp2018.commands.ArmStop;
 import org.usfirst.frc2876.PowerUp2018.commands.ArmUp;
 import org.usfirst.frc2876.PowerUp2018.commands.ElevatorGoToPosition;
@@ -89,7 +89,7 @@ public class OI {
         SmartDashboard.putData("IntakeBackward", new IntakeBackward());
         SmartDashboard.putData("IntakeForward", new IntakeForward());
         SmartDashboard.putData("armUp", new ArmUp());
-        SmartDashboard.putData("armDown", new ArmDown());
+        SmartDashboard.putData("armDown", new TestPixy());
         SmartDashboard.putData("armStop", new ArmStop());
 //        SmartDashboard.putData("ElevatorUp", new ElevatorUp());
 //        SmartDashboard.putData("ElevatorDown", new ElevatorDown());
@@ -136,7 +136,7 @@ public class OI {
         rightBumper.whileHeld(new IntakeForward());
         
         lJoyButton = new JoystickButton(xboxController, LJOY_BUTTON);
-        lJoyButton.whileHeld(new ArmDown());
+        lJoyButton.whileHeld(new TestPixy());
         
         rJoyButton = new JoystickButton(xboxController, RJOY_BUTTON);
         rJoyButton.whileHeld(new ArmUp());

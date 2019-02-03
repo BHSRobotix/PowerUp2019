@@ -62,4 +62,9 @@ public class Pixy2GetMainFeatures {
         
     }
 
+
+	public Pixy2Vector[] vectors() {
+		return vectors;
+	}
+
 }
